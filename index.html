@@ -1,0 +1,39 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+    </head>
+
+    <script>
+        function btn1() {
+            document
+                .getElementById('content')
+                .innerHTML = '<img src="images/ferret.jpg"/>';
+        }
+
+        function btn2() {
+            document
+                .getElementById('content')
+                .innerHTML = '<img src="images/appa.jpg"/>';
+        }
+
+        function btn3() {
+            document
+                .getElementById('content')
+                .innerHTML = '<img src="images/shiba.jpg"/>';
+        }
+    </script>
+
+    <body>
+        <h1>Spirit Animal Quiz</h1>
+
+        <button onclick="btn1()">Button 1</button>
+        <button onclick="btn2()">Button 2</button>
+        <button onclick="btn3()">Button 3</button>
+
+        <div id="content">
+            <h3> Assessment </h3>
+
+            "content goes here"
+        </div>
+    </body>
+</html>
