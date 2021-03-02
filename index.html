@@ -3,37 +3,98 @@
         <meta charset="utf-8">
     </head>
 
+    <style>
+        .wrapper {
+            border: 2px dotted rgb(96, 139, 16*);
+            width: 100%;
+        }
+
+        #quiz-header {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .box {
+            display: flex;
+            margin: 10px;
+        }
+
+        .box>* {
+            flex: 1 1 25%;
+        }
+
+        .card {
+            position: relative;
+            text-align: center;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            height: 500px;
+            padding: 20px;
+            margin: 10px;
+        }
+
+        .card img {
+            max-width: 50%;
+        }
+
+        .card p {
+            font-size: 2rem;
+            position: absolute;
+            bottom: 20px;
+            right: 50%;
+        }
+
+        .bingo {
+            background-color: #68af15 !important;
+        }
+
+        .wrong {
+            background-color: #e32 !important;
+        }
+    </style>
+
+    <body>
+        <div class="wrapper">
+            <h1 id="quiz-header"> What character did actor John Leguizamo play </h1>
+            <div class="box">
+                <div class="card" id="correct">
+                    <img src="./images/faun.jpg">
+
+                    <p>The Faun</p>
+                </div>
+                <div class="card" id="correct">
+                    <img src="./images/eyes.png">
+
+                    <p>Pale Man</p>
+                </div>
+                <div class="card" id="correct">
+                    <img src="./images/clown.jpg">
+
+                    <p>Violator</p>
+                </div>
+                <div class="card" id="correct">
+                    <img src="./images/shape.jpg">
+
+                    <p>Amphibian Man</p>
+                </div>
+            </div>
+        </div>
+    </body>
     <script>
-        function btn1() {
-            document
-                .getElementById('content')
-                .innerHTML = '<img src="images/ferret.jpg"/>';
-        }
+        const answer = (pTag, node) => {
+            if (pTag.innerText === 'Violator') {
+                node.classList.add("bingo");
+                pTag.innerText = 'Correct!';
+            } else {
+                node.classList.add("wrong");
+                pTag.innerText = 'Wrong';
+            }
+        };
+        const cards = document.getElementsByClassName("card");
 
-        function btn2() {
-            document
-                .getElementById('content')
-                .innerHTML = '<img src="images/appa.jpg"/>';
-        }
-
-        function btn3() {
-            document
-                .getElementById('content')
-                .innerHTML = '<img src="images/shiba.jpg"/>';
+        for (const card of cards) {
+            const { lastElementChild } = card
+            card.onclick = () => answer(lastElementChild, card);
         }
     </script>
 
-    <body>
-        <h1>Spirit Animal Quiz</h1>
-
-        <button onclick="btn1()">Button 1</button>
-        <button onclick="btn2()">Button 2</button>
-        <button onclick="btn3()">Button 3</button>
-
-        <div id="content">
-            <h3> Assessment </h3>
-
-            "content goes here"
-        </div>
-    </body>
 </html>
