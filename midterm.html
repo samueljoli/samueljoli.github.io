@@ -1,0 +1,44 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+    </head>
+
+    <style>
+        body {
+            background: black;
+        }
+        #wrapper {
+            color: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        #input-title {
+            margin-bottom: 10px;
+        }
+
+        input {
+            margin-bottom: 10px;
+        }
+    </style>
+
+    <body>
+        <div id="wrapper">
+            <div id="input-title"> Enter your username </div>
+            <input type="text" id="fname" name="fname"><br>
+            <button onclick="onSubmit()"> Submit </button>
+        </div>
+    </body>
+    <script>
+        function onSubmit(args) {
+            const input = document.getElementById('fname');
+
+            // Store username in local storage
+            localStorage.setItem('snake_username', input.value);
+
+            window.location.href = "game.html"
+        }
+    </script>
+    <script type='text/javascript' src='./src/game.js'></script>
+</html>
