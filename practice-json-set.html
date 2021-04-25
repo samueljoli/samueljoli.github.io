@@ -1,0 +1,43 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    </head>
+
+    <style>
+        #container {
+            text-align: center;
+        }
+
+        div {
+            text-align: center;
+            font-family: Courier New;
+        }
+    </style>
+
+    <script>
+        function createElement(text) {
+            const div = document.createElement('div');
+            const textNode = document.createTextNode(text);
+
+            div.appendChild(textNode);
+
+            document.body.appendChild(div);
+        }
+        (async function init() {
+            const raw = await fetch('https://swapi.dev/api/planets/');
+            const response = await raw.json();
+            const {results} = response;
+
+            results.forEach((res) => {
+                createElement(res.name);
+            });
+        }());
+    </script>
+
+    <body>
+        <div id="container">
+            <h1> Star Wars Planets </h1>
+        </div>
+    </body>
+</html>
