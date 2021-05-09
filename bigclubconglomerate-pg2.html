@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script>
+            $( function() {
+                // Initialize accordion
+                $( "#accordion" ).accordion({
+                    heightStyle: "content",
+                    autoHeight: false,
+                    clearStyle: true,  
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <style>
+            #info {
+                background-color: beige;
+            }
+            .event {
+                height: 20px;
+            }
+        </style>
+        <div id="accordion">
+            <h3>Big Hall</h3>
+            <div id="big-hall-container">
+            </div>
+            <h3>Smokey Club</h3>
+            <div id="smokey-club-container">
+            </div>
+            <h3>Little Café</h3>
+            <div id="little-cafe-container">
+            </div>
+        </div>
+        <div id="info">
+            <p id="info-artist"></p>
+            <p id="info-date"></p>
+            <p id="info-cover"></p>
+            <p id="info-city"></p>
+            <p id="info-state"></p>
+            <p id="info-time"></p>
+        </div>
+        <script>
+            (async function() {
+                const populate = container => ({
+                    artist,
+                    date,
+                    city,
+                    state,
+                    show_time,
+                    price,
+                    currency,
+                }) => {
+                    container.prepend(`
+                        <p
+                            class="event"
+                            data-artist="${artist}"
+                            data-date="${date}"
+                            data-cover="${price}"
+                            data-city="${city}"
+                            data-state="${state}"
+                            data-time="${show_time}"
+                            data-currency="${currency}"
+                        >
+                            ${artist}
+                        </p>
+                    `);
+                };
+                // initialize arrays
+                const bigHallData = [];
+                const smokeyClubData = [];
+                const littleCafeData = [];
+
+                const bigHallContainerEl = $('#big-hall-container');
+                const smokeyClubContainerEl = $('#smokey-club-container');
+                const littleCafeContainerEl = $('#little-cafe-container');
+
+                // fetch data
+                const url = 'https://blmak.github.io/BigMusicClubConclomerateDates.json';
+                const response = await $.get(url);
+
+                // group artists with respective venue
+                response.forEach((artist) => {
+                    if (artist.venue === 'Little Café') {
+                        littleCafeData.push(artist);
+                    }
+                    if (artist.venue === 'Big Hall') {
+                        bigHallData.push(artist);
+                    }
+                    if (artist.venue === 'Smokey Club') {
+                        smokeyClubData.push(artist);
+                    }
+                });
+
+                // update header if there are no events
+                if (!bigHallData.length) {
+                    bigHallContainerEl.prev('h3').append(' : No upcoming events');
+                }
+                if (!smokeyClubData.length) {
+                    smokeyClubContainerEl.prev('h3').append(' : No upcoming events');
+                }
+                if (!littleCafeData.length) {
+                    littleCafeContainerEl.prev('h3').append(' : No upcoming events');
+                }
+
+                // populate html
+                bigHallData.forEach(populate(bigHallContainerEl));
+                smokeyClubData.forEach(populate(smokeyClubContainerEl));
+                littleCafeData.forEach(populate(littleCafeContainerEl));
+
+                // add jquery ui
+                $('#info').fadeOut(1);
+                $('.event').hover(
+                    function enter() {
+                        const {
+                            artist,
+                            date,
+                            cover,
+                            city,
+                            state,
+                            time,
+                            currency,
+                        } = $(this).data();
+
+                        if(artist) $('#info-artist').text(artist);
+                        if(date) $('#info-date').text(`Date: ${date}`);
+                        if(cover && currency) $('#info-cover').text(`Cover: ${cover} ${currency}`);
+                        if(city) $('#info-city').text(`City: ${city}`);
+                        if(state) $('#info-state').text(`State: ${state}`);
+                        if(time) $('#info-time').text(`Time: ${time}`);
+                        if(info) $('#info').fadeIn(50);
+                    },
+                    function exit() {
+                        $('#info').fadeOut(50);
+                    }
+                );
+            }());
+        </script>
+    </body>
+</html>
